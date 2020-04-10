@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch
 
 from pyfakefs.fake_filesystem_unittest import patchfs
 
-from fdbk_ruuvi_reporter.main import DATA_FILE, read_data, create_topic, start_reporting
+from fdbk_ruuvi_reporter.main import DATA_FILE, read_data, read_data_from_db, create_topic, start_reporting
 
 def mock_get_datas(handler, macs, flag):
     flag.running = False
@@ -65,3 +65,17 @@ class RuuviTagTest(TestCase):
 
         handler_mock.assert_called()
         sensor_mock.get_datas.assert_called()
+
+    @patchfs
+    def test_read_data_from_db(self, fs):
+        dict_params = ("DictConnection", (expanduser("~/.fdbk.json"), ), )
+
+        fs.makedirs(expanduser("~/"))
+        create_topic(*dict_params, "name1", "mac1")
+        create_topic(*dict_params, "name1", "mac1")
+        data = read_data()
+        fs.remove_object(DATA_FILE)
+        self.assertEqual(read_data(), [])
+
+        read_data_from_db(*dict_params)
+        self.assertEqual(read_data(), data)

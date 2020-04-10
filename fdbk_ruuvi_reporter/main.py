@@ -21,6 +21,16 @@ def read_data():
     return data
 
 
+def read_data_from_db(db_connection, db_parameters):
+    connection = create_db_connection(db_connection, db_parameters)
+    topics = connection.get_topics("ruuvitag")
+
+    for topic in topics:
+        topic_id = topic.get("id")
+        mac = topic.get("metadata", {}).get("mac")
+        add_topic_id(mac, topic_id)
+
+
 def add_topic_id(mac, topic_id):
     data = read_data()
     data.append(dict(mac=mac, topic_id=topic_id))
