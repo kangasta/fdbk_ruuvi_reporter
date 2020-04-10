@@ -1,0 +1,22 @@
+language: python
+python:
+- '3.6'
+- '3.7'
+- '3.8'
+services:
+- docker
+install:
+- pip install -r requirements.txt
+script:
+- pycodestyle fdbk_ruuvi_reporter
+- pylint -E --enable=invalid-name,unused-import,useless-object-inheritance fdbk_ruuvi_reporter
+- coverage run --branch --source fdbk_ruuvi_reporter/ -m unittest discover -s tst/
+- coverage report -m
+deploy:
+  provider: pypi
+  user: __token__
+  password:
+    secure: lJ3/quSwVEyqpA51G90/TlpY6YvHTNoc3FNB4AdzO2mgCiRVj5ml1CmKX8AL3XBgAmtwsyv8gQO/6p1/Tugv5SVM3GWTflbL63srJpLWwg2creSOkHRKZp4PzFO8v/XCRh5RC06u08oUGS1imMfsiFx6gsJv99yr0kLXhzv+Mdm1k84qaq2d8IVaSw1vVJ2tcj+HPDZJ04rwBHrWuBOUQEHuNd4SaeR+6seNkQVMoGvVRp16E9QNFIgiiXYHbmQnXYnPZYZM4HW/WlgZkIGmmktwxTTFKzgg7+F1HgCCNc7MrGfqXPlivPmBcQf02p2/WeBIaSqGMsudHKF6Uacn5mR46XWrVnqNvMwJ1GH5TeEOeQ3XbbABsWb1RA+H+8vFWYYoMQlC5JzyNOXzHNWhfBMQxYnQrKrfVSd12RgOf7reA2CI3DqviozFlHuSGZGpHDpALckTY6Om6sP1iMybmKuW42i6M4g/QmZxE54YkkpKqVTS7RmWzHNhFmth+Hg1hfwZV/0U7O7rKqCJI+9fTggI6DvgurMpUEfLp6rK7m18mAeIwhs+8g8o548JIjfPAV8p1C4FmNc1D546hILi4Dx2KvUlj4BVKZGwHrx4DTZET+hBtE7v6ybx0fn7yb/PRwflJwCbzTMAtDTYZZR4gy49RjTOfQYLOCCx9wCzlLY=
+  on:
+    tags: true
+    python: 3.7

@@ -1,0 +1,10 @@
+.
+
+# Static analysis
+pycodestyle
+pylint
+
+# Unittest
+coverage
+freezegun
+mock
