@@ -36,7 +36,7 @@ def create_topic_dict(mac, name=None, description=None):
 class RuuviTag:
     def __init__(self, mac, name=None, description=None):
         self._mac = mac
-        self._name = name if name else mac
+        self._name = name
         self._description = description
 
     @property

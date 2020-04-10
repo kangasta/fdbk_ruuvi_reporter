@@ -1,5 +1,6 @@
 from fdbk import Reporter
 
+
 class RuuviDataHandler:
     def __init__(self, sensors, **kwargs):
         self._reporters = {}

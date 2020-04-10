@@ -5,14 +5,14 @@
 Check and automatically fix formatting with:
 
 ```bash
-pycodestyle fdbk
-autopep8 -aaar --in-place fdbk
+pycodestyle fdbk_ruuvi_reporter
+autopep8 -aaar --in-place fdbk_ruuvi_reporter
 ```
 
 Run static analysis with:
 
 ```bash
-pylint -E --enable=invalid-name,unused-import,useless-object-inheritance fdbk
+pylint -E --enable=invalid-name,unused-import,useless-object-inheritance fdbk_ruuvi_reporter
 ```
 
 Run unit tests with command:
@@ -24,6 +24,6 @@ python3 -m unittest discover -s tst/
 Get test coverage with commands:
 
 ```bash
-coverage run --branch --source fdbk/ -m unittest discover -s tst/
+coverage run --branch --source fdbk_ruuvi_reporter/ -m unittest discover -s tst/
 coverage report -m
 ```
