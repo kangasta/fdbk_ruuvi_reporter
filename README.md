@@ -1,5 +1,23 @@
 # fdbk_ruuvi_reporter
 
+[![Build Status](https://travis-ci.org/kangasta/fdbk_ruuvi_reporter.svg?branch=master)](https://travis-ci.org/kangasta/fdbk_ruuvi_reporter)
+
+## Installation
+
+Run:
+
+```bash
+pip install fdbk_ruuvi_reporter
+```
+
+to install from [PyPI](https://pypi.org/project/fdbk_ruuvi_reporter/) or download this repository and run
+
+```bash
+python setup.py install
+```
+
+to install from sources.
+
 ## Testing
 
 Check and automatically fix formatting with:
