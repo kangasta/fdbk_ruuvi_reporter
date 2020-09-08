@@ -9,7 +9,20 @@ from unittest.mock import MagicMock, patch
 
 from pyfakefs.fake_filesystem_unittest import patchfs
 
-from fdbk_ruuvi_reporter.main import DATA_FILE, read_data, read_data_from_db, create_topic, start_reporting
+from fdbk_ruuvi_reporter.main import DATA_FILE, read_data, read_data_from_db, create_topic, start_reporting, update_topics
+from fdbk_ruuvi_reporter._topic import FIELDS, UNITS, DATA_TOOLS
+
+V0_TOPIC = dict(
+    name="Test v0",
+    id="test_v0_id",
+    template=None,
+    type="ruuvitag",
+    description="description",
+    fields=FIELDS,
+    units=UNITS,
+    data_tools=DATA_TOOLS,
+    metadata=dict(mac="mac"),
+)
 
 def mock_get_datas(handler, macs, flag):
     flag.running = False
@@ -74,8 +87,27 @@ class RuuviTagTest(TestCase):
         create_topic(*dict_params, "name1", "mac1")
         create_topic(*dict_params, "name1", "mac1")
         data = read_data()
+
         fs.remove_object(DATA_FILE)
         self.assertEqual(read_data(), [])
 
         read_data_from_db(*dict_params)
         self.assertEqual(read_data(), data)
+
+    @patchfs
+    def test_update_topics(self, fs):
+        fs.create_file(expanduser("~/.fdbk.json"), contents=json.dumps(dict(topics=[V0_TOPIC])))
+        dict_params = ("DictConnection", (expanduser("~/.fdbk.json"), ), )
+
+        update_topics(*dict_params)
+
+        with open(expanduser("~/.fdbk.json"), 'r') as f:
+            topics = json.load(f).get('topics')
+
+        self.assertEqual(len(topics), 2)
+
+        self.assertEqual(topics[0]["type"], "topic")
+        self.assertEqual(topics[0]["template"], "ruuvitag")
+
+        self.assertEqual(topics[1]["type"], "template")
+        self.assertEqual(topics[1]["template"], None)

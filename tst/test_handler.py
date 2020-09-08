@@ -17,7 +17,7 @@ class RuuviTagTest(TestCase):
     def test_handler_calls_report_on_new_data(self, reporter_mock):
         reporter = MagicMock()
         reporter_mock.return_value = reporter
-        handler = RuuviDataHandler(SENSORS, db_connection="DictConnection")
+        handler = RuuviDataHandler(SENSORS, db_plugin="DictConnection")
         data = dict(temperature=20, humidity=50, pressure=1013)
         r = handler(["mac", data])
         reporter.report.assert_called_with(data)
