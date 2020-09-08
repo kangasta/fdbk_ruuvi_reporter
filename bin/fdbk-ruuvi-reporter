@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
 from fdbk.utils import get_reporter_argparser
-from fdbk_ruuvi_reporter.main import add_topic_id, create_topic, start_reporting, read_data_from_db
+from fdbk_ruuvi_reporter.main import add_topic_id, create_topic, start_reporting, read_data_from_db, update_topics
 
 parser = get_reporter_argparser()
 parser.add_argument("--save-topic", nargs=2, type=str, metavar=("MAC", "TOPIC_ID",), help="Save topic id for mac")
 parser.add_argument("--create-topic", nargs=2, type=str, metavar=("NAME", "MAC",), help="Create topic for name and mac")
 parser.add_argument("--pull-topics", action="store_true", help="Pull topics data from DB")
+parser.add_argument("--update-topics", action="store_true", help="Update topics in the DB to the latest version")
 args = parser.parse_args()
 
 if args.save_topic:
@@ -15,5 +16,7 @@ elif args.create_topic:
     create_topic(args.db_connection, args.db_parameters, *args.create_topic)
 elif args.pull_topics:
     read_data_from_db(args.db_connection, args.db_parameters)
+elif args.update_topics:
+    update_topics(args.db_connection, args.db_parameters)
 else:
-    start_reporting(db_connection=args.db_connection, db_parameters=args.db_parameters, interval=args.interval, num_samples=args.num_samples, verbose=args.verbose)
+    start_reporting(db_plugin=args.db_connection, db_parameters=args.db_parameters, interval=args.interval, num_samples=args.num_samples, verbose=args.verbose)

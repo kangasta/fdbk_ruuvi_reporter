@@ -18,26 +18,38 @@ DATA_TOOLS = [
 ]
 
 
-def create_topic_dict(mac, name=None, description=None):
+TEMPLATE_DICT = dict(
+    name="ruuvitag",
+    type_str="template",
+    fields=FIELDS,
+    units=UNITS,
+    data_tools=DATA_TOOLS,
+)
+
+
+def create_topic_dict(mac, name=None, description=None, id_str=None):
     if not name:
         name = mac
 
     return dict(
         name=name,
-        type_str="ruuvitag",
+        id_str=id_str,
+        template="ruuvitag",
+        type_str="topic",
         description=description,
-        fields=FIELDS,
-        units=UNITS,
-        data_tools=DATA_TOOLS,
         metadata=dict(mac=mac),
     )
 
 
 class RuuviTag:
-    def __init__(self, mac, name=None, description=None):
+    def __init__(self, mac, name=None, description=None, id_str=None):
         self._mac = mac
         self._name = name
         self._description = description
+
+    @property
+    def template(self):
+        return TEMPLATE_DICT
 
     @property
     def topic(self):

@@ -9,7 +9,7 @@ class RuuviTagTest(TestCase):
         data = tag.topic
 
         self.assertEqual(data.get("name"), "name")
-        self.assertEqual(data.get("type_str"), "ruuvitag")
+        self.assertEqual(data.get("template"), "ruuvitag")
         self.assertEqual(data.get("description"), "description")
         self.assertEqual(data.get("metadata").get("mac"), "mac")
 
@@ -18,6 +18,6 @@ class RuuviTagTest(TestCase):
         data = tag.topic
 
         self.assertEqual(data.get("name"), "mac")
-        self.assertEqual(data.get("type_str"), "ruuvitag")
+        self.assertEqual(data.get("template"), "ruuvitag")
         self.assertEqual(data.get("description"), None)
         self.assertEqual(data.get("metadata").get("mac"), "mac")
