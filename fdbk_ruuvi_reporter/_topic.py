@@ -2,25 +2,26 @@ FIELDS = ['temperature', 'humidity', 'pressure']
 
 
 UNITS = [
-    dict(field='temperature', unit="celsius"),
-    dict(field='humidity', unit="celsius"),
-    dict(field='pressure', unit="hectopascal"),
+    dict(field='temperature', unit='celsius'),
+    dict(field='humidity', unit='percent'),
+    dict(field='pressure', unit='hectopascal'),
 ]
 
 
+TI_PARAMETERS = dict(method='latest', name='Latest measurements')
 DATA_TOOLS = [
-    dict(field='temperature', method="latest"),
-    dict(field='humidity', method="latest"),
-    dict(field='pressure', method="latest"),
-    dict(field='temperature', method="line"),
-    dict(field='humidity', method="line"),
-    dict(field='pressure', method="line"),
+    dict(field='temperature', method='table_item', parameters=TI_PARAMETERS),
+    dict(field='humidity', method='table_item', parameters=TI_PARAMETERS),
+    dict(field='pressure', method='table_item', parameters=TI_PARAMETERS),
+    dict(field='temperature', method='line'),
+    dict(field='humidity', method='line'),
+    dict(field='pressure', method='line'),
 ]
 
 
 TEMPLATE_DICT = dict(
-    name="ruuvitag",
-    type_str="template",
+    name='ruuvitag',
+    type_str='template',
     fields=FIELDS,
     units=UNITS,
     data_tools=DATA_TOOLS,
@@ -34,8 +35,8 @@ def create_topic_dict(mac, name=None, description=None, id_str=None):
     return dict(
         name=name,
         id_str=id_str,
-        template="ruuvitag",
-        type_str="topic",
+        template='ruuvitag',
+        type_str='topic',
         description=description,
         metadata=dict(mac=mac),
     )
