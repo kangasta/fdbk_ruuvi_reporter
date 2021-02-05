@@ -1,6 +1,7 @@
 # fdbk_ruuvi_reporter
 
-[![Build Status](https://travis-ci.org/kangasta/fdbk_ruuvi_reporter.svg?branch=master)](https://travis-ci.org/kangasta/fdbk_ruuvi_reporter)
+![CI](https://github.com/kangasta/fdbk_ruuvi_reporter/workflows/CI/badge.svg)
+![Release](https://github.com/kangasta/fdbk_ruuvi_reporter/workflows/Release/badge.svg)
 
 ## Getting started
 
