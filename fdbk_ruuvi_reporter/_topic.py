@@ -8,11 +8,25 @@ UNITS = [
 ]
 
 
-TI_PARAMETERS = dict(method='latest', name='Latest measurements')
+def _get_ti_params(method='average'):
+    return dict(method=method, name='Statistics')
+
+
 DATA_TOOLS = [
-    dict(field='temperature', method='table_item', parameters=TI_PARAMETERS),
-    dict(field='humidity', method='table_item', parameters=TI_PARAMETERS),
-    dict(field='pressure', method='table_item', parameters=TI_PARAMETERS),
+    dict(
+        field='temperature',
+        method='table_item',
+        parameters=_get_ti_params()),
+    dict(
+        field='temperature',
+        method='table_item',
+        parameters=_get_ti_params('min')),
+    dict(
+        field='temperature',
+        method='table_item',
+        parameters=_get_ti_params('max')),
+    dict(field='humidity', method='table_item', parameters=_get_ti_params()),
+    dict(field='pressure', method='table_item', parameters=_get_ti_params()),
     dict(field='temperature', method='line'),
     dict(field='humidity', method='line'),
     dict(field='pressure', method='line'),
