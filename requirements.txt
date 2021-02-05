@@ -8,4 +8,4 @@ pylint
 coverage
 freezegun
 mock
-pyfakefs>=4.0.0
+pyfakefs>=4.3

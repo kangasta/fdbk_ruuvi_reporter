@@ -43,7 +43,7 @@ class RuuviTagTest(TestCase):
 
     @patchfs
     @patch("fdbk_ruuvi_reporter.main.create_db_connection")
-    def test_create_topic_adds_config_to_config_file(self, db_mock, fs):
+    def test_create_topic_adds_config_to_config_file(self, fs, db_mock):
         fs.makedirs(expanduser("~/"))
         connection = MagicMock()
         connection.add_topic.return_value = "topic_id"
@@ -62,7 +62,7 @@ class RuuviTagTest(TestCase):
     @patchfs
     @patch("fdbk_ruuvi_reporter.main.RuuviDataHandler")
     @patch("fdbk_ruuvi_reporter.main.RuuviTagSensor")
-    def test_start_reporting_returns_on_sigint(self, sensor_mock, handler_mock, fs):
+    def test_start_reporting_returns_on_sigint(self, fs, sensor_mock, handler_mock):
         sensor_mock.get_datas.side_effect = (Exception(), KeyboardInterrupt(),)
         start_reporting()
 
@@ -72,7 +72,7 @@ class RuuviTagTest(TestCase):
     @patchfs
     @patch("fdbk_ruuvi_reporter.main.RuuviDataHandler")
     @patch("fdbk_ruuvi_reporter.main.RuuviTagSensor")
-    def test_stops_reporting_when_flag_is_set_to_false(self, sensor_mock, handler_mock, fs):
+    def test_stops_reporting_when_flag_is_set_to_false(self, fs, sensor_mock, handler_mock):
         sensor_mock.get_datas.side_effect = mock_get_datas
         start_reporting()
 
