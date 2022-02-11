@@ -18,6 +18,9 @@ class RuuviTagTest(TestCase):
         reporter = MagicMock()
         reporter_mock.return_value = reporter
         handler = RuuviDataHandler(SENSORS, db_plugin="DictConnection")
-        data = dict(temperature=20, humidity=50, pressure=1013)
+        data = dict(temperature=20, humidity=50, pressure=1013, battery=3300)
         r = handler(["mac", data])
+
+        data['battery_voltage'] = data.pop('battery') / 1000
+
         reporter.report.assert_called_with(data)

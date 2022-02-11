@@ -1,10 +1,11 @@
-FIELDS = ['temperature', 'humidity', 'pressure']
+FIELDS = ['temperature', 'humidity', 'pressure', 'battery_voltage']
 
 
 UNITS = [
     dict(field='temperature', unit='celsius'),
     dict(field='humidity', unit='percent'),
     dict(field='pressure', unit='hectopascal'),
+    dict(field='battery_voltage', unit='volt')
 ]
 
 
