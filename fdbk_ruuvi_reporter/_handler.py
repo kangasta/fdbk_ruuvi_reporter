@@ -13,8 +13,11 @@ class RuuviDataHandler:
         if mac not in self._reporters:
             return
 
+        battery_voltage = data.get('battery', 0) / 1000 or None
+
         self._reporters[mac].report(dict(
             temperature=data.get("temperature"),
             humidity=data.get("humidity"),
             pressure=data.get("pressure"),
+            battery_voltage=battery_voltage,
         ))
