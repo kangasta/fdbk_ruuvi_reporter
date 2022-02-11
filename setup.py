@@ -25,7 +25,7 @@ setuptools.setup(
     scripts=["bin/fdbk-ruuvi-reporter"],
     install_requires=[
         "fdbk~=3.0",
-        "ruuvitag-sensor~=1.0.1",
+        "ruuvitag-sensor~=1.0",
     ],
     python_requires='>=3.6',
     classifiers=[
