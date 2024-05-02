@@ -1,3 +1,4 @@
+from importlib import resources
 import json
 from os.path import expanduser
 import os
@@ -24,7 +25,16 @@ V0_TOPIC = dict(
     metadata=dict(mac="mac"),
 )
 
-def mock_get_datas(handler, macs, flag):
+def fdbk_schema_path():
+    try:
+        with resources.as_file(resources.files("fdbk.schemas").joinpath("topic.json")) as path:
+            return os.path.dirname(path)
+    except:
+        with resources.path("fdbk.schemas", "topic.json") as path:
+            return os.path.dirname(path)
+
+
+def mock_get_data(handler, macs, flag):
     flag.running = False
 
 class RuuviTagTest(TestCase):
@@ -63,27 +73,32 @@ class RuuviTagTest(TestCase):
     @patch("fdbk_ruuvi_reporter.main.RuuviDataHandler")
     @patch("fdbk_ruuvi_reporter.main.RuuviTagSensor")
     def test_start_reporting_returns_on_sigint(self, fs, sensor_mock, handler_mock):
-        sensor_mock.get_datas.side_effect = (Exception(), KeyboardInterrupt(),)
+        sensor_mock.get_data.side_effect = (Exception(), KeyboardInterrupt(),)
         start_reporting()
 
         handler_mock.assert_called()
-        sensor_mock.get_datas.assert_called()
+        sensor_mock.get_data.assert_called()
 
     @patchfs
     @patch("fdbk_ruuvi_reporter.main.RuuviDataHandler")
     @patch("fdbk_ruuvi_reporter.main.RuuviTagSensor")
     def test_stops_reporting_when_flag_is_set_to_false(self, fs, sensor_mock, handler_mock):
-        sensor_mock.get_datas.side_effect = mock_get_datas
+        sensor_mock.get_data.side_effect = mock_get_data
         start_reporting()
 
         handler_mock.assert_called()
-        sensor_mock.get_datas.assert_called()
+        sensor_mock.get_data.assert_called()
 
     @patchfs
     def test_read_data_from_db(self, fs):
+        fs.add_real_directory(fdbk_schema_path())
         dict_params = ("DictConnection", (expanduser("~/.fdbk.json"), ), )
 
-        fs.makedirs(expanduser("~/"))
+        try:
+            fs.makedirs(expanduser("~/"))
+        except:
+            pass
+
         create_topic(*dict_params, "name1", "mac1")
         create_topic(*dict_params, "name1", "mac1")
         data = read_data()
@@ -96,6 +111,7 @@ class RuuviTagTest(TestCase):
 
     @patchfs
     def test_update_topics(self, fs):
+        fs.add_real_directory(fdbk_schema_path())
         fs.create_file(expanduser("~/.fdbk.json"), contents=json.dumps(dict(topics=[V0_TOPIC])))
         dict_params = ("DictConnection", (expanduser("~/.fdbk.json"), ), )
 
