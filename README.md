@@ -45,7 +45,7 @@ pip install fdbk_ruuvi_reporter
 to install from [PyPI](https://pypi.org/project/fdbk_ruuvi_reporter/) or download this repository and run
 
 ```bash
-python setup.py install
+pip install .
 ```
 
 to install from sources.

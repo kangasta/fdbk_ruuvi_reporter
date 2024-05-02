@@ -4,11 +4,15 @@ from signal import signal, SIGINT
 
 from ruuvitag_sensor.ruuvi import RuuviTagSensor, RunFlag
 
+from fdbk import __version__ as fdbk_version
 from fdbk.utils import create_db_connection
-from fdbk_ruuvi_reporter import (
+
+from . import (
     create_topic_dict,
     RuuviDataHandler,
-    TEMPLATE_DICT)
+    TEMPLATE_DICT,
+    __version__ as fdbk_ruuvi_reporter_version)
+from ._args import parse_args
 
 
 DATA_FILE = expanduser("~/.fdbk-ruuvi.json")
@@ -63,7 +67,7 @@ def start_reporting(**kwargs):
 
     while flag.running:
         try:
-            RuuviTagSensor.get_datas(handler, None, flag)
+            RuuviTagSensor.get_data(handler, None, flag)
         except KeyboardInterrupt:
             return
         except Exception:
@@ -88,3 +92,30 @@ def update_topics(db_connection, db_parameters):
 
         connection.add_topic(
             **create_topic_dict(mac, name, id_str=topic_id), overwrite=True)
+
+
+def execute():
+    args = parse_args()
+
+    if args.version:
+        print(f"fdbk {fdbk_version}")
+        print(f"fdbk_ruuvi_reporter {fdbk_ruuvi_reporter_version}")
+        exit()
+    if args.save_topic:
+        add_topic_id(*args.save_topic)
+    elif args.create_topic:
+        create_topic(
+            args.db_connection,
+            args.db_parameters,
+            *args.create_topic)
+    elif args.pull_topics:
+        read_data_from_db(args.db_connection, args.db_parameters)
+    elif args.update_topics:
+        update_topics(args.db_connection, args.db_parameters)
+    else:
+        start_reporting(
+            db_plugin=args.db_connection,
+            db_parameters=args.db_parameters,
+            interval=args.interval,
+            num_samples=args.num_samples,
+            verbose=args.verbose)

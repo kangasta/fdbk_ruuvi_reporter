@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fdbk_ruuvi_reporter"
+version = "3.2.0"
+authors = [
+    {name = "Toni Kangas"},
+]
+description = "Ruuvitag data reporter for fdbk."
+readme = "README.md"
+requires-python = ">=3.7"
+license = {file = "LICENSE"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "fdbk~=3.0",
+    "ruuvitag-sensor~=2.0",
+]
+
+[project.scripts]
+fdbk-ruuvi-reporter = "fdbk_ruuvi_reporter:execute"
+
+[project.urls]
+Homepage = "https://github.com/kangasta/fdbk_ruuvi_reporter"
+Repository = "https://github.com/kangasta/fdbk_ruuvi_reporter.git"
+
+[tool.setuptools.packages.find]
+include = ["fdbk_ruuvi_reporter*"]

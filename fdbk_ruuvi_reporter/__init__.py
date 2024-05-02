@@ -1,3 +1,6 @@
+from importlib.metadata import version
+__version__ = version('fdbk_ruuvi_reporter')
+
 from ._handler import RuuviDataHandler
 from ._topic import RuuviTag, create_topic_dict, TEMPLATE_DICT
-from ._version import __version__
+from .main import execute
